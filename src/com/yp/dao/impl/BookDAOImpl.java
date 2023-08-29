@@ -3,6 +3,7 @@ package com.yp.dao.impl;
 import com.yp.dao.BookDAO;
 import com.yp.pojo.Book;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class BookDAOImpl extends BaseDAO implements BookDAO {
@@ -61,6 +62,19 @@ public class BookDAOImpl extends BaseDAO implements BookDAO {
     }
 
 
+    @Override
+    public List<Book> queryPageItemsByPrice(int begin, int pageSize, int min, int max) {
+        String sql = "select id, name, author, price, sales, stock, img_path imgPath " +
+                "from t_book where price between ? and ? order by price limit ?, ?";
+        return queryMulti(Book.class, sql, min, max, begin, pageSize);
+    }
+
+    @Override
+    public int queryPageTotalCountByPrice(int min, int max) {
+        String sql = "select count(*) from t_book where price between ? and ?";
+        Number totalCountByPrice = (Number) queryScar(sql, min, max);
+        return totalCountByPrice.intValue();
+    }
 }
 
 

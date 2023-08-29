@@ -18,6 +18,14 @@
         <servlet-name>BookServlet</servlet-name>
         <servlet-class>com.yp.web.BookServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ClientBookServlet</servlet-name>
+        <servlet-class>com.yp.web.ClientBookServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClientBookServlet</servlet-name>
+        <url-pattern>/client/clientBookServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BookServlet</servlet-name>
         <url-pattern>/manager/bookServlet</url-pattern>

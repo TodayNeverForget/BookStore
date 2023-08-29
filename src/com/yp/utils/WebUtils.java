@@ -4,6 +4,7 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.Map;
 
 public class WebUtils {
@@ -28,6 +29,17 @@ public class WebUtils {
             e.printStackTrace();
         }
         return defaultValue;
+    }
+
+    public static BigDecimal parseBigDecimal(String strDecimal, double defaultValue) {
+        try {
+            if (strDecimal != null && !"".equals(strDecimal)) {
+                return BigDecimal.valueOf(Double.parseDouble(strDecimal));
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return BigDecimal.valueOf(defaultValue);
     }
 
 

@@ -19,7 +19,7 @@ Servlet、idea、css、html、
 ## 相关思想
 ```
 项目基于MVC三层模型实现，主要有DAO层、
-Service层、Web层，层次清晰，逻辑分明，
+Service层、Web层以及Web层与jsp页面联动，层次清晰，逻辑分明，
 易拓展，易维护；
 面向对象编程；
 信息分布显示、分布查询；

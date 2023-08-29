@@ -10,6 +10,7 @@ public class Page<T> {
     private int pageTotal;
     private int pageTotalCount;
     private List<T> items;
+    private String url;
 
     public int getPageNo() {
         return pageNo;
@@ -22,6 +23,14 @@ public class Page<T> {
             pageNo = pageTotal;
         }
         this.pageNo = pageNo;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public int getPageSize() {
@@ -64,6 +73,7 @@ public class Page<T> {
                 ", pageTotal=" + pageTotal +
                 ", pageTotalCount=" + pageTotalCount +
                 ", items=" + items +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

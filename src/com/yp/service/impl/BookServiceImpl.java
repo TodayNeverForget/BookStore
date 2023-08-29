@@ -6,6 +6,7 @@ import com.yp.pojo.Book;
 import com.yp.pojo.Page;
 import com.yp.service.BookService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class BookServiceImpl implements BookService {
@@ -66,4 +67,31 @@ public class BookServiceImpl implements BookService {
         return page;
     }
 
+    @Override
+    public Page<Book> pageByPrice(int pageNo, int pageSize, int min, int max) {
+        Page<Book> page = new Page<>();
+        //页大小
+        page.setPageSize(pageSize);
+
+        int pageTotalCountByprice = bookDAO.queryPageTotalCountByPrice(min, max);
+        //数据总数
+        page.setPageTotalCount(pageTotalCountByprice);
+
+        int pageTotal = pageTotalCountByprice / pageSize;
+        if (pageTotalCountByprice % pageSize != 0) {
+            pageTotal++;
+        }
+        //页总数
+        page.setPageTotal(pageTotal);
+
+        //页码
+        page.setPageNo(pageNo);
+        int begin = (page.getPageNo() - 1) * pageSize;
+        List<Book> items = bookDAO.queryPageItemsByPrice(begin, pageSize, min, max);
+
+        //当前页数据
+        page.setItems(items);
+
+        return page;
+    }
 }

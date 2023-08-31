@@ -7,39 +7,21 @@ import com.yp.utils.WebUtils;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.lang.reflect.Method;
+
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 
 public class UserServlet extends BaseServlet {
     private UserServiceImpl userService = new UserServiceImpl();
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    void logOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        request.getSession().invalidate();
+        System.out.println("注销成功");
+
+        response.sendRedirect(request.getContextPath());
     }
 
-    /*@Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-        String action = request.getParameter("action");
-
-        try {
-            Method method = this.getClass().getDeclaredMethod(action,
-                    HttpServletRequest.class, HttpServletResponse.class);
-
-            method.invoke(this, request, response);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        *//*if ("login".equals(request.getParameter("action"))) {
-            login(userService, request, response);
-        } else if ( "regist".equals(request.getParameter("action"))) {
-            regist(userService, request, response);
-        }*//*
-    }*/
 
     void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -47,8 +29,11 @@ public class UserServlet extends BaseServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (userService.login(new User(null, username, password, null)) != null) {
+        User loginUser = userService.login(new User(null, username, password, null));
+        if (loginUser != null) {
             System.out.println("登录成功");
+
+            request.getSession().setAttribute("user", loginUser);
             request.getRequestDispatcher("/pages/user/login_success.jsp")
                     .forward(request, response);
 
@@ -68,11 +53,14 @@ public class UserServlet extends BaseServlet {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         String code = request.getParameter("code");
+        String kaptcha = (String) request.getSession().getAttribute(KAPTCHA_SESSION_KEY);
+        request.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
+
 
         User user = WebUtils.copyParamToBean(request.getParameterMap(), new User());
         System.out.println(user);
 
-        if ("bnbnp".equalsIgnoreCase(code)) {
+        if (kaptcha != null &&  kaptcha.equalsIgnoreCase(code)) {
 
             if (!userService.exitUserName(username)) {
                 System.out.println("注册成功");

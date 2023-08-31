@@ -31,8 +31,8 @@
 							<div class="form">
 								<form action="userServlet" method="post">
 									<label>用户名称：</label>
-									<input class="itxt" type="text" placeholder="请输入用户名"
-										   autocomplete="off" tabindex="1" name="username" value="${ requestScope.username }" />
+									<input class="itxt" type="text" plac	eholder="请输入用户名"
+										   autocomplete="off" tabindex="1" name="username" value="<%--${cookie.username.value}--%>${ requestScope.username }" />
 									<br />
 									<br />
 									<label>用户密码：</label>

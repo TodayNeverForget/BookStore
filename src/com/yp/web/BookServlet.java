@@ -33,25 +33,27 @@ public class BookServlet extends BaseServlet {
         //为什么这里的/不能被浏览器解析到端口号？？？
         /*由于不知为什么浏览器无法解析传回的
         request.getContextPath()为服务器地址到端口号
-        只解析了工程名，前面的端口号服务器ip都没有*/
+        只解析了工程名，前面的端口号服务器ip都没有*//*
         String basePath = request.getScheme() +
                 "://" + request.getServerName() + ":" +
                 request.getServerPort() + "/" + request.getContextPath();
-        response.sendRedirect(basePath + "/manager/bookServlet?action=page&pageNo=" + pageNo);
+        System.out.println(request.getContextPath());*/
+        response.sendRedirect(request.getContextPath() + "/manager/bookServlet?action=page&pageNo=" + pageNo);
     }
 
     protected void delete(HttpServletRequest request
             , HttpServletResponse response) throws ServletException, IOException {
         int pageNo = (WebUtils.parseInt(request.getParameter("pageNo"), 0) + 1);
         bookService.deletBook(WebUtils.parseInt(request.getParameter("id"), 0));
-        System.out.println("已删除");
-        /*由于不知为什么浏览器无法解析传回的
+        System.out.println("已删除");/*
+        *//*由于不知为什么浏览器无法解析传回的
         request.getContextPath()为服务器地址到端口号
-        只解析了工程名，前面的端口号服务器ip都没有*/
+        只解析了工程名，前面的端口号服务器ip都没有*//*
         String basePath = request.getScheme() +
                 "://" + request.getServerName() + ":" +
-                request.getServerPort() + "/" + request.getContextPath();
-        response.sendRedirect(basePath + "/manager/bookServlet?action=page&pageNo=" + pageNo);
+                request.getServerPort() + "/" + request.getContextPath();*/
+//        response.sendRedirect(request.getHeader("Referer"));
+        response.sendRedirect(request.getContextPath() + "/manager/bookServlet?action=page&pageNo=" + pageNo);
     }
 
     protected void update(HttpServletRequest request
@@ -64,11 +66,11 @@ public class BookServlet extends BaseServlet {
 
         /*由于不知为什么浏览器无法解析传回的
         request.getContextPath()为服务器地址到端口号
-        只解析了工程名，前面的端口号服务器ip都没有*/
+        只解析了工程名，前面的端口号服务器ip都没有*//*
         String basePath = request.getScheme() +
                 "://" + request.getServerName() + ":" +
-                request.getServerPort() + "/" + request.getContextPath();
-        response.sendRedirect(basePath + "/manager/bookServlet?action=page&pageNo=" + pageNo);
+                request.getServerPort() + "/" + request.getContextPath();*/
+        response.sendRedirect(request.getContextPath() + "/manager/bookServlet?action=page&pageNo=" + pageNo);
     }
 
     protected void list(HttpServletRequest request

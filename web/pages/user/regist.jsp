@@ -47,6 +47,12 @@
 				$("span.errorMsg").text("");
 			});
 
+			$("#kaptcha").click(function () {
+
+				this.src = "katpcha.jpg?d=" + new Date();
+
+			});
+
 
 		});
 
@@ -107,8 +113,8 @@
 									<br />
 									<br />
 									<label>验证码：</label>
-									<input class="itxt" type="text" style="width: 150px;" name="code" id="code"/>
-									<img alt="" src="static/img/code.bmp" style="float: right; margin-right: 40px">
+									<input class="itxt" type="text" style="width: 80px;" name="code" id="code"/>
+									<img alt="" src="katpcha.jpg" id="kaptcha" style="float: right; margin-right: 40px" width="100px" height="28px">
 									<br />
 									<br />
 									<input type="hidden" name="action" value="regist">

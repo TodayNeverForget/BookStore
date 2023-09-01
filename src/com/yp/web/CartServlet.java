@@ -1,5 +1,6 @@
 package com.yp.web;
 
+import com.google.gson.Gson;
 import com.yp.pojo.Book;
 import com.yp.pojo.Cart;
 import com.yp.pojo.CartItem;
@@ -11,11 +12,12 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 
 public class CartServlet extends BaseServlet {
     BookService bookService = new BookServiceImpl();
 
-    protected void addItem(HttpServletRequest request
+    /*protected void addItem(HttpServletRequest request
             , HttpServletResponse response) throws ServletException, IOException {
 
         Integer id = WebUtils.parseInt(request.getParameter("id"), 0);
@@ -33,6 +35,35 @@ public class CartServlet extends BaseServlet {
         session.setAttribute("lastAdd", book.getName());
         cart.addItem(item);
         response.sendRedirect(request.getHeader("Referer"));
+    }*/
+
+    protected void ajaxAddItem(HttpServletRequest request
+            , HttpServletResponse response) throws ServletException, IOException {
+
+        Integer id = WebUtils.parseInt(request.getParameter("id"), 0);
+
+        Book book = bookService.queryBookById(id);
+        CartItem item = new CartItem(book.getId(), book.getName(), 1, book.getPrice(), book.getPrice());
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("cart");
+
+        if (cart == null) {
+            cart = new Cart();
+            session.setAttribute("cart", cart);
+        }
+
+//        session.setAttribute("lastAdd", book.getName());
+        cart.addItem(item);
+
+        HashMap<String, Object> res = new HashMap<>();
+
+        res.put("totalCount", cart.getTotalCount());
+        res.put("lastAdd", book.getName());
+
+        Gson gson = new Gson();
+        String s = gson.toJson(res);
+
+        response.getWriter().write(s);
     }
 
     protected void deleteItem(HttpServletRequest request

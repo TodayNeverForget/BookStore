@@ -1,5 +1,6 @@
 package com.yp.web;
 
+import com.google.gson.Gson;
 import com.yp.pojo.User;
 import com.yp.service.impl.UserServiceImpl;
 import com.yp.utils.WebUtils;
@@ -7,6 +8,8 @@ import com.yp.utils.WebUtils;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 
@@ -90,6 +93,25 @@ public class UserServlet extends BaseServlet {
             request.getRequestDispatcher("/pages/user/regist.jsp")
                     .forward(request, response);
         }
+
+    }
+
+
+    protected void ajaxExitsUserName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String username = request.getParameter("username");
+
+        boolean exitUserName = userService.exitUserName(username);
+
+        Map<String, Boolean> stringBooleanMap = new HashMap<>();
+
+        stringBooleanMap.put("exitUserName", exitUserName);
+
+        Gson gson = new Gson();
+
+        String s = gson.toJson(stringBooleanMap);
+
+        response.getWriter().write(s);
 
     }
 

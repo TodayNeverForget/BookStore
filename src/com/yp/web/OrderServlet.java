@@ -8,6 +8,7 @@ import com.yp.service.OrderItemService;
 import com.yp.service.OrderService;
 import com.yp.service.impl.OrderItemServiceImpl;
 import com.yp.service.impl.OrderServiceImpl;
+import com.yp.utils.JdbcUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -28,7 +29,10 @@ public class OrderServlet extends BaseServlet {
         }
         Integer userId = loginUser.getId();
 
-        String orderId = orderService.createOrder(cart, userId);
+        String orderId = null;
+
+        orderId = orderService.createOrder(cart, userId);
+
         session.setAttribute("orderId", orderId);
 
         System.out.println("订单创建成功");

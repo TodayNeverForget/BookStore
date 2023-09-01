@@ -29,6 +29,8 @@ public class OrderServiceImpl implements OrderService {
 
         Collection<CartItem> cartItems = cart.getItems().values();
 
+//        int a = 1 / 0;
+
         for (CartItem cartItem : cartItems) {
             orderItemDAO.saveOrderItem(
                     new OrderItem(null, cartItem.getName(), cartItem.getCount()

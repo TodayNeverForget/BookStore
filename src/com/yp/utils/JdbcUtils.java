@@ -11,6 +11,7 @@ import java.util.Properties;
 public class JdbcUtils {
 
     private static DruidDataSource dataSource;
+    private static ThreadLocal<Connection> conns = new ThreadLocal<>();
 
     static {
 
@@ -34,7 +35,7 @@ public class JdbcUtils {
 
     }
 
-    public static Connection getConnection() {
+    /*public static Connection getConnection() {
 
         Connection conn = null;
 
@@ -45,9 +46,69 @@ public class JdbcUtils {
         }
 
         return conn;
+    }*/
+
+    public static Connection getConnection() {
+
+        Connection conn = conns.get();
+
+        if (conn == null) {
+            try {
+                conn = dataSource.getConnection();
+                conns.set(conn);
+                conn.setAutoCommit(false);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return conn;
     }
 
-    public static void close(Connection conn) {
+    public static void commitAndClose() {
+        Connection conn = conns.get();
+
+        if (conn != null) {
+            try {
+                conn.commit();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        conns.remove();
+    }
+
+    public static void rollBackAndClose() {
+
+        Connection conn = conns.get();
+
+        if (conn != null) {
+            try {
+                conn.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        conns.remove();
+    }
+
+    /*public static void close(Connection conn) {
 
         if (conn != null) {
             try {
@@ -57,7 +118,7 @@ public class JdbcUtils {
             }
         }
 
-    }
+    }*/
 
 
 }

@@ -15,6 +15,8 @@ public class BaseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
+        response.setContentType("text/html; charset=UTF-8");
+
         String action = request.getParameter("action");
 
         System.out.println("base我来过");
@@ -27,6 +29,7 @@ public class BaseServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
     }

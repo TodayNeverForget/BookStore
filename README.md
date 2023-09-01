@@ -21,7 +21,8 @@ listener
 
 ```
 通过Filter对访问admin目录下的资源作权限校验；
-通过cookie实现用户名cookie有效时间内访问login
+同时对工程下的所有访问try-catch关闭数据库连接；
+通过cookie实现用户名有效时间内访问login
 界面username自动填充；使用google-kaptcha生成随机
 验证码解决表单重复提交问题。
 
